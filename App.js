@@ -77,4 +77,17 @@ const estilos = StyleSheet.create({
     backgroundColor: "orange",
     flex: 0.7,
   },
+  titulo: {
+    fontSize: 32,
+    textAlign: "center",
+    color: "green",
+    fontWeight: "bold",
+  },
+  subtitulo: {
+    textAlign: "center",
+    fontSize: 24,
+  },
+  texto: {
+    marginTop: 16,
+  },
 });
