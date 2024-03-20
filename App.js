@@ -1,51 +1,53 @@
-import { useState, useEffect } from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { Pedometer } from "expo-sensors";
+import {
+  Text,
+  View,
+  StatusBar,
+  SafeAreaView,
+  Button,
+  Alert,
+  StyleSheet,
+} from "react-native";
+import estilos from "./src/stylesheets/estilos";
 
 export default function App() {
-  const [isPedometerAvailable, setIsPedometerAvailable] = useState("checking");
-  const [pastStepCount, setPastStepCount] = useState(0);
-  const [currentStepCount, setCurrentStepCount] = useState(0);
-
-  const subscribe = async () => {
-    const isAvailable = await Pedometer.isAvailableAsync();
-    setIsPedometerAvailable(String(isAvailable));
-
-    if (isAvailable) {
-      const end = new Date();
-      const start = new Date();
-      start.setDate(end.getDate() - 1);
-
-      const pastStepCountResult = await Pedometer.getStepCountAsync(start, end);
-      if (pastStepCountResult) {
-        setPastStepCount(pastStepCountResult.steps);
-      }
-
-      return Pedometer.watchStepCount((result) => {
-        setCurrentStepCount(result.steps);
-      });
-    }
+  const vai = () => {
+    Alert.alert("Titulo da janela", "Fala parça!");
+    console.log("Teste!");
   };
 
-  useEffect(() => {
-    const subscription = subscribe();
-    return () => subscription && subscription.remove();
-  }, []);
-
   return (
-    <View style={styles.container}>
-      <Text>Pedometer.isAvailableAsync(): {isPedometerAvailable}</Text>
-      <Text>Steps taken in the last 24 hours: {pastStepCount}</Text>
-      <Text>Walk! And watch this go up: {currentStepCount}</Text>
-    </View>
+    <>
+      <StatusBar barStyle="light-content" />
+      <SafeAreaView style={estilos.container}>
+        <View style={estilos.cabecalho}>
+          <Text style={estilos.titulo}>Topo/Cabeçalho</Text>
+        </View>
+        <View style={estilos.conteudo}>
+          <Text style={estilos.subtitulo}>Conteúdo...</Text>
+          <Text style={estilos.texto}>
+            Etiam sed condimentum lorem. Integer sit amet risus dignissim diam
+            tristique suscipit. Cras at erat sed diam maximus dapibus.
+          </Text>
+          <Text style={estilos.texto}>
+            Curabitur scelerisque ipsum non tristique eleifend. Vestibulum
+            tempor leo ut eros rutrum finibus. Praesent ultrices commodo eros,
+            porttitor pellentesque turpis maximus fermentum. Integer a risus et
+            orci vulputate mattis. Pellentesque nec sem cursus, mattis risus
+            non, hendrerit ex.
+          </Text>
+          <Text style={estilos.texto}>
+            Praesent in dapibus diam, nec consectetur nisl. Fusce hendrerit nunc
+            congue, vulputate lacus nec, suscipit lectus. Vestibulum venenatis
+            varius condimentum. Praesent scelerisque ex iaculis justo sodales
+            rhoncus. Curabitur at efficitur ligula, pharetra commodo nibh. Sed
+            eget dignissim ex, sed accumsan turpis.
+          </Text>
+        </View>
+        <View style={estilos.rodape}>
+          <Text>Rodapé...</Text>
+          <Button title="Toca aqui!!!" onPress={vai} />
+        </View>
+      </SafeAreaView>
+    </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    marginTop: 15,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});
